@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-
 export interface ChunkRecord {
   id: string;
   text: string;
@@ -9,18 +6,12 @@ export interface ChunkRecord {
   title: string;
 }
 
-let chunksCache: ChunkRecord[] | null = null;
+import chunksData from '@/data/chunks.json';
+
+const chunks: ChunkRecord[] = chunksData as ChunkRecord[];
 
 const NVIDIA_BASE_URL = process.env.NVIDIA_BASE_URL || 'https://integrate.api.nvidia.com/v1';
 const CHAT_MODEL = 'meta/llama-3.1-8b-instruct';
-
-function loadChunks(): ChunkRecord[] {
-  if (chunksCache) return chunksCache;
-  const filePath = path.join(process.cwd(), 'src', 'data', 'chunks.json');
-  const raw = fs.readFileSync(filePath, 'utf-8');
-  chunksCache = JSON.parse(raw) as ChunkRecord[];
-  return chunksCache;
-}
 
 function getSourceDisplayName(filename: string): string {
   const match = filename.match(/pneg-?\d+/i);
@@ -57,7 +48,6 @@ function bm25Similarity(query: string, doc: string): number {
 }
 
 export function findRelevantChunks(query: string, topK = 5) {
-  const chunks = loadChunks();
   return chunks
     .map(c => ({ ...c, score: bm25Similarity(query, c.text) }))
     .sort((a, b) => b.score - a.score)
