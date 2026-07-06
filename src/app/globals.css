@@ -1,0 +1,759 @@
+@import "tailwindcss";
+
+/* ===== TANZROFT DESIGN SYSTEM ===== */
+
+@layer base {
+  :root {
+    --background: 210 45% 6%;
+    --foreground: 210 40% 96%;
+
+    --card: 210 45% 9%;
+    --card-foreground: 210 40% 96%;
+
+    --popover: 210 45% 9%;
+    --popover-foreground: 210 40% 96%;
+
+    --primary: 194 52% 54%;
+    --primary-foreground: 210 45% 6%;
+
+    --secondary: 207 60% 18%;
+    --secondary-foreground: 210 40% 96%;
+
+    --muted: 207 60% 18%;
+    --muted-foreground: 215 20% 60%;
+
+    --accent: 200 46% 20%;
+    --accent-foreground: 210 40% 96%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 96%;
+
+    --border: 207 40% 20%;
+    --input: 207 40% 20%;
+    --ring: 194 52% 54%;
+
+    --radius: 0.75rem;
+
+    /* Tanzroft brand tokens */
+    --tanzroft-navy: #1D3747;
+    --tanzroft-deep: #0E2841;
+    --tanzroft-steel: #4BACC6;
+    --tanzroft-steel-light: #6BC4DA;
+    --tanzroft-silver: #B2B2B2;
+
+    /* Custom design tokens */
+    --gradient-primary: linear-gradient(135deg, #4BACC6, #1D3747, #4BACC6);
+    --gradient-brand: linear-gradient(135deg, #4BACC6, #2A8AA6, #1D3747);
+    --gradient-dark: linear-gradient(135deg, #0a0f1e, #0E2841, #0a0f1e);
+    --gradient-card: linear-gradient(145deg, rgba(29, 55, 71, 0.4), rgba(14, 40, 65, 0.6));
+    --gradient-accent: linear-gradient(135deg, #4BACC6, #1D3747);
+    --glass-bg: rgba(14, 40, 65, 0.5);
+    --glass-border: rgba(75, 172, 198, 0.12);
+    --glow-brand: 0 0 30px rgba(75, 172, 198, 0.3);
+    --glow-navy: 0 0 30px rgba(29, 55, 71, 0.4);
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: #070d1a;
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+    line-height: 1.7;
+  }
+
+  ::selection {
+    background-color: rgba(75, 172, 198, 0.3);
+    color: #e2e8f0;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0f1e;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #4BACC6, #1D3747);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #6BC4DA, #2A6E85);
+  }
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+/* Glassmorphism */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-strong {
+  background: rgba(14, 40, 65, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(75, 172, 198, 0.15);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #4BACC6, #6BC4DA, #4BACC6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-accent {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glow effects */
+.glow-cyan {
+  box-shadow: var(--glow-brand);
+}
+
+.glow-teal {
+  box-shadow: var(--glow-navy);
+}
+
+.glow-border {
+  position: relative;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--gradient-brand);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.glow-border:hover::before {
+  opacity: 1;
+}
+
+/* Animated gradient border */
+.animated-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    #4BACC6,
+    #1D3747,
+    #6BC4DA,
+    #0E2841,
+    #4BACC6
+  );
+  animation: spin-border 4s linear infinite;
+  z-index: -1;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes spin-border {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* Shimmer effect */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(75, 172, 198, 0.05),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  to {
+    left: 100%;
+  }
+}
+
+/* Float animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 6s ease-in-out 1s infinite;
+}
+
+.animate-float-delay-2 {
+  animation: float 6s ease-in-out 2s infinite;
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(75, 172, 198, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(75, 172, 198, 0.4);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Gradient animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+/* Section styling helpers */
+.section-dark {
+  background: linear-gradient(180deg, #070d1a 0%, #0E2841 50%, #070d1a 100%);
+}
+
+.section-darker {
+  background: linear-gradient(180deg, #050a14 0%, #0a1628 50%, #050a14 100%);
+}
+
+/* Scroll indicator bounce */
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.5;
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+/* ===== AI ANIMATIONS ===== */
+@keyframes scan {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 0%;
+  }
+}
+
+.animate-scan {
+  animation: scan 4s linear infinite;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+/* ===== LIGHT MODE — PROFESSIONAL THEME ===== */
+
+/* Smooth theme transition on all elements */
+html.light *,
+html.light *::before,
+html.light *::after {
+  transition: background-color 0.35s ease, color 0.25s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+html.light {
+  color-scheme: light;
+}
+
+/* --- CSS Custom Property overrides --- */
+html.light :root {
+  --background: 210 20% 98%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 195 70% 38%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222 47% 11%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 195 70% 38%;
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(75, 172, 198, 0.22);
+  --gradient-card: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(241,245,249,0.9));
+  --gradient-dark: linear-gradient(135deg, #f8fafc, #eef2f6, #f8fafc);
+  --gradient-brand: linear-gradient(135deg, #1D3747, #2A8AA6, #4BACC6);
+  --glow-brand: 0 4px 24px rgba(75, 172, 198, 0.12);
+  --glow-navy: 0 4px 24px rgba(29, 55, 71, 0.08);
+}
+
+/* --- Body --- */
+html.light body {
+  background-color: #f7f9fc !important;
+  color: #1a2332 !important;
+}
+
+/* --- Text Selection --- */
+html.light ::selection {
+  background-color: rgba(75, 172, 198, 0.25);
+  color: #0f172a;
+}
+
+/* --- Scrollbar --- */
+html.light ::-webkit-scrollbar-track {
+  background: #eef2f6;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #94bdc9, #4BACC6);
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4BACC6, #2A8AA6);
+}
+
+/* --- Logo theme switching --- */
+.logo-light {
+  display: none !important;
+}
+.logo-dark {
+  display: inline-block !important;
+}
+html.light .logo-light {
+  display: inline-block !important;
+}
+html.light .logo-dark {
+  display: none !important;
+}
+
+/* ============================================
+   BACKGROUND OVERRIDES
+   ============================================ */
+
+/* Hardcoded navy / dark backgrounds → light equivalents */
+html.light .bg-\[\#070d1a\] { background-color: #f7f9fc !important; }
+html.light .bg-\[\#070d1a\]\/95 { background-color: rgba(247,249,252,0.97) !important; }
+html.light .bg-\[\#070d1a\]\/90 { background-color: rgba(247,249,252,0.95) !important; }
+html.light .bg-\[\#070d1a\]\/85 { background-color: rgba(247,249,252,0.92) !important; }
+html.light .bg-\[\#070d1a\]\/80 { background-color: rgba(247,249,252,0.88) !important; }
+html.light .bg-\[\#070d1a\]\/60 { background-color: rgba(247,249,252,0.65) !important; }
+html.light .bg-\[\#050a14\] { background-color: #f1f4f8 !important; }
+html.light .bg-\[\#0E2841\] { background-color: #ffffff !important; }
+html.light .bg-\[\#0E2841\]\/60 { background-color: rgba(255,255,255,0.95) !important; }
+html.light .bg-\[\#0E2841\]\/50 { background-color: rgba(255,255,255,0.90) !important; }
+html.light .bg-\[\#0E2841\]\/40 { background-color: rgba(255,255,255,0.85) !important; }
+html.light .bg-\[\#0E2841\]\/30 { background-color: rgba(255,255,255,0.80) !important; }
+html.light .bg-\[\#0E2841\]\/20 { background-color: rgba(255,255,255,0.75) !important; }
+
+/* Tailwind slate bg overrides */
+html.light .bg-slate-950 { background-color: #f1f4f8 !important; }
+html.light .bg-slate-950\/50 { background-color: rgba(241,244,248,0.8) !important; }
+html.light .bg-slate-950\/80 { background-color: rgba(241,244,248,0.95) !important; }
+html.light .bg-slate-900 { background-color: #f7f9fc !important; }
+html.light .bg-slate-900\/50 { background-color: rgba(247,249,252,0.8) !important; }
+html.light .bg-slate-900\/80 { background-color: rgba(247,249,252,0.95) !important; }
+html.light .bg-slate-800\/40 { background-color: rgba(255,255,255,0.9) !important; }
+
+/* White with low opacity — make them visible on light backgrounds */
+html.light .bg-white\/5 { background-color: rgba(241,245,249,0.7) !important; }
+html.light .bg-white\/\[0\.03\] { background-color: rgba(255,255,255,0.85) !important; }
+html.light .bg-white\/\[0\.04\] { background-color: rgba(255,255,255,0.85) !important; }
+html.light .bg-white\/\[0\.06\] { background-color: rgba(255,255,255,0.92) !important; }
+html.light .bg-white\/10 { background-color: rgba(75,172,198,0.08) !important; }
+
+/* ============================================
+   TEXT COLOR OVERRIDES
+   ============================================ */
+html.light .text-white { color: #1a2332 !important; }
+html.light .text-slate-200 { color: #1e293b !important; }
+html.light .text-slate-300 { color: #334155 !important; }
+html.light .text-slate-400 { color: #475569 !important; }
+html.light .text-slate-500 { color: #64748b !important; }
+html.light .text-slate-700 { color: #334155 !important; }
+html.light .text-cyan-100 { color: #1e293b !important; }
+html.light .text-cyan-300 { color: #0e7490 !important; }
+html.light .text-cyan-400 { color: #0891b2 !important; }
+html.light .text-\[\#4BACC6\] { color: #0e7490 !important; }
+html.light .text-\[\#6BC4DA\] { color: #0891b2 !important; }
+html.light .text-white\/80 { color: rgba(26,35,50,0.8) !important; }
+
+/* Hover text overrides */
+html.light .hover\:text-white:hover { color: #0f172a !important; }
+html.light .hover\:text-\[\#4BACC6\]:hover { color: #0e7490 !important; }
+html.light .hover\:text-\[\#6BC4DA\]:hover { color: #0891b2 !important; }
+html.light .group-hover\:text-white:hover { color: #0f172a !important; }
+html.light .group-hover\:text-\[\#6BC4DA\]:hover { color: #0891b2 !important; }
+
+/* ============================================
+   GRADIENT TEXT — deeper for light backgrounds
+   ============================================ */
+html.light .gradient-text {
+  background: linear-gradient(135deg, #0e7490, #0891b2, #0d9488) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+html.light .gradient-text-accent {
+  background: linear-gradient(135deg, #0e7490, #1D3747) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Inline gradient text used in hero heading */
+html.light .bg-gradient-to-r.from-\[\#4BACC6\].via-\[\#6BC4DA\].to-\[\#4BACC6\] {
+  background: linear-gradient(to right, #0e7490, #0891b2, #0e7490) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+/* ============================================
+   BORDER OVERRIDES
+   ============================================ */
+html.light .border-\[\#1D3747\]\/50 { border-color: #e2e8f0 !important; }
+html.light .border-\[\#1D3747\]\/40 { border-color: #e2e8f0 !important; }
+html.light .border-\[\#1D3747\]\/30 { border-color: #eef2f6 !important; }
+html.light .border-\[\#1D3747\] { border-color: #cbd5e1 !important; }
+html.light .border-\[\#4BACC6\]\/25 { border-color: rgba(14,116,144,0.3) !important; }
+html.light .border-\[\#4BACC6\]\/20 { border-color: rgba(14,116,144,0.2) !important; }
+html.light .border-\[\#4BACC6\]\/10 { border-color: rgba(14,116,144,0.12) !important; }
+html.light .border-\[\#4BACC6\]\/30 { border-color: rgba(14,116,144,0.25) !important; }
+html.light .border-slate-800 { border-color: #e2e8f0 !important; }
+html.light .border-slate-800\/50 { border-color: rgba(226,232,240,0.6) !important; }
+html.light .border-slate-800\/20 { border-color: rgba(226,232,240,0.35) !important; }
+html.light .border-slate-700\/50 { border-color: #e2e8f0 !important; }
+html.light .border-white\/5 { border-color: #e2e8f0 !important; }
+html.light .border-white\/10 { border-color: #e2e8f0 !important; }
+
+/* ============================================
+   GLASS & CARD OVERRIDES
+   ============================================ */
+html.light .glass {
+  background: rgba(255,255,255,0.82) !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+html.light .glass-strong {
+  background: rgba(255,255,255,0.95) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05) !important;
+}
+
+/* ============================================
+   SECTION BACKGROUND OVERRIDES
+   ============================================ */
+html.light .section-dark {
+  background: linear-gradient(180deg, #f7f9fc 0%, #eef2f6 50%, #f7f9fc 100%) !important;
+}
+html.light .section-darker {
+  background: linear-gradient(180deg, #f1f4f8 0%, #e8ecf1 50%, #f1f4f8 100%) !important;
+}
+
+/* ============================================
+   HERO SECTION — key visual area
+   ============================================ */
+/* The dark gradient overlay on the hero image — make it a light frosted overlay */
+html.light .bg-gradient-to-b.from-\[\#070d1a\]\/85 {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(247,249,252,0.88),
+    rgba(238,242,246,0.7),
+    rgba(247,249,252,0.92)
+  ) !important;
+}
+
+/* ============================================
+   VALUE PROPOSITION SECTION
+   ============================================ */
+html.light .bg-gradient-to-b.from-\[\#070d1a\] {
+  background-image: linear-gradient(
+    to bottom, #f7f9fc, rgba(238,242,246,0.5), #f7f9fc
+  ) !important;
+}
+
+/* ============================================
+   TESTIMONIAL SECTION
+   ============================================ */
+html.light .bg-gradient-to-br.from-\[\#070d1a\] {
+  background-image: linear-gradient(
+    to bottom right, #f7f9fc, rgba(238,242,246,0.4), #f7f9fc
+  ) !important;
+}
+
+/* ============================================
+   CTA BANNER — gradient band section, keep it vibrant
+   ============================================ */
+html.light .bg-gradient-to-r.from-\[\#1D3747\].via-\[\#4BACC6\].to-\[\#1D3747\] {
+  background-image: linear-gradient(
+    to right, #1D3747, #2A8AA6, #4BACC6, #2A8AA6, #1D3747
+  ) !important;
+}
+/* Keep white CTA button text dark navy in light mode */
+html.light .bg-white.text-\[\#1D3747\] {
+  background-color: #ffffff !important;
+  color: #1D3747 !important;
+}
+
+/* ============================================
+   MARQUEE FADE EDGES — software badges
+   ============================================ */
+html.light .bg-gradient-to-r.from-slate-950\/80 {
+  background-image: linear-gradient(to right, rgba(241,244,248,0.9), transparent) !important;
+}
+html.light .bg-gradient-to-l.from-slate-950\/80 {
+  background-image: linear-gradient(to left, rgba(241,244,248,0.9), transparent) !important;
+}
+
+/* ============================================
+   DECORATIVE BLOBS — reduce visual noise in light
+   ============================================ */
+html.light .bg-\[\#4BACC6\]\/\[0\.06\] { background-color: rgba(75,172,198,0.04) !important; }
+html.light .bg-\[\#4BACC6\]\/\[0\.03\] { background-color: rgba(75,172,198,0.03) !important; }
+html.light .bg-\[\#4BACC6\]\/\[0\.04\] { background-color: rgba(75,172,198,0.03) !important; }
+html.light .bg-\[\#1D3747\]\/\[0\.1\] { background-color: rgba(29,55,71,0.04) !important; }
+html.light .bg-\[\#1D3747\]\/\[0\.05\] { background-color: rgba(29,55,71,0.03) !important; }
+
+/* Floating orbs on hero — tone them down */
+html.light .blur-3xl.bg-gradient-to-br.from-\[\#4BACC6\]\/20 { opacity: 0.08 !important; }
+html.light .blur-3xl.bg-gradient-to-br.from-\[\#1D3747\]\/20 { opacity: 0.06 !important; }
+html.light .blur-3xl.bg-gradient-to-br.from-\[\#4BACC6\]\/15 { opacity: 0.06 !important; }
+
+/* ============================================
+   BADGES & PILLS
+   ============================================ */
+html.light .bg-\[\#4BACC6\]\/10 {
+  background-color: rgba(14,116,144,0.08) !important;
+}
+html.light .bg-\[\#4BACC6\]\/20 {
+  background-color: rgba(14,116,144,0.1) !important;
+}
+
+/* ============================================
+   SERVICE CARDS — inline dark backgrounds
+   ============================================ */
+/* bg-slate-700/50 used on file format chips */
+html.light .bg-slate-700\/50 {
+  background-color: #f1f5f9 !important;
+}
+
+/* ============================================
+   SHADOW OVERRIDES
+   ============================================ */
+html.light .shadow-\[\#4BACC6\]\/25 { box-shadow: 0 4px 14px rgba(14,116,144,0.1) !important; }
+html.light .shadow-\[\#4BACC6\]\/40 { box-shadow: 0 8px 25px rgba(14,116,144,0.12) !important; }
+html.light .shadow-\[\#4BACC6\]\/20 { box-shadow: 0 4px 14px rgba(14,116,144,0.08) !important; }
+html.light .shadow-black\/20 { box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important; }
+
+/* ============================================
+   GLOW EFFECTS — subtle in light mode
+   ============================================ */
+html.light .glow-cyan { box-shadow: 0 2px 16px rgba(75,172,198,0.08) !important; }
+html.light .glow-teal { box-shadow: 0 2px 16px rgba(29,55,71,0.06) !important; }
+
+/* Hover glow on cards */
+html.light .hover\:shadow-\[0_0_25px_rgba\(75\,172\,198\,0\.15\)\]:hover {
+  box-shadow: 0 4px 20px rgba(14,116,144,0.08) !important;
+}
+html.light .hover\:shadow-\[0_0_40px_rgba\(75\,172\,198\,0\.1\)\]:hover {
+  box-shadow: 0 8px 30px rgba(14,116,144,0.08) !important;
+}
+
+/* ============================================
+   FORMS — inputs, textareas, selects
+   ============================================ */
+html.light input[type="email"],
+html.light input[type="text"],
+html.light input[type="tel"],
+html.light textarea,
+html.light select {
+  background-color: #ffffff !important;
+  color: #1a2332 !important;
+  border-color: #e2e8f0 !important;
+}
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+html.light input:focus,
+html.light textarea:focus {
+  border-color: #4BACC6 !important;
+  box-shadow: 0 0 0 3px rgba(75,172,198,0.12) !important;
+}
+
+/* ============================================
+   TIMELINE — vertical line
+   ============================================ */
+html.light .bg-gradient-to-b.from-\[\#4BACC6\]\/40 {
+  background-image: linear-gradient(to bottom, rgba(14,116,144,0.25), rgba(14,116,144,0.08), transparent) !important;
+}
+
+/* Timeline dot inner white circle — keep it white since the gradient orb is kept */
+html.light .bg-gradient-to-br.from-\[\#4BACC6\].to-\[\#1D3747\] .bg-white {
+  background-color: #ffffff !important;
+}
+
+/* ============================================
+   THEME TOGGLE BUTTON
+   ============================================ */
+html.light button[aria-label="Toggle light/dark mode"] {
+  background-color: rgba(241,245,249,0.9) !important;
+  border-color: #e2e8f0 !important;
+  color: #475569 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+}
+html.light button[aria-label="Toggle light/dark mode"]:hover {
+  border-color: #4BACC6 !important;
+  color: #0e7490 !important;
+  box-shadow: 0 2px 8px rgba(75,172,198,0.12) !important;
+}
+
+/* ============================================
+   NAVBAR — mobile drawer
+   ============================================ */
+html.light .hover\:bg-white\/10:hover {
+  background-color: rgba(14,116,144,0.06) !important;
+}
+html.light .hover\:bg-white\/5:hover {
+  background-color: rgba(14,116,144,0.04) !important;
+}
+
+/* Mobile menu underline gradient */
+html.light .bg-gradient-to-r.from-\[\#4BACC6\].to-\[\#1D3747\] {
+  background-image: linear-gradient(to right, #0e7490, #1D3747) !important;
+}
+
+/* ============================================
+   FOOTER — top gradient line
+   ============================================ */
+html.light .bg-gradient-to-r.from-transparent.via-\[\#4BACC6\].to-transparent {
+  background-image: linear-gradient(to right, transparent, #4BACC6, transparent) !important;
+  opacity: 0.5;
+}
+
+/* ============================================
+   SHIMMER EFFECT — tone down
+   ============================================ */
+html.light .shimmer::after {
+  background: linear-gradient(90deg, transparent, rgba(14,116,144,0.03), transparent) !important;
+}
+
+/* ============================================
+   ANIMATED BORDER — for light backgrounds
+   ============================================ */
+html.light .animated-border::before {
+  background: conic-gradient(
+    from var(--angle, 0deg),
+    #cbd5e1,
+    #4BACC6,
+    #e2e8f0,
+    #0e7490,
+    #cbd5e1
+  ) !important;
+}
+
+/* ============================================
+   PULSE GLOW — subtle in light
+   ============================================ */
+html.light .animate-pulse-glow {
+  animation: pulse-glow-light 3s ease-in-out infinite;
+}
+@keyframes pulse-glow-light {
+  0%, 100% { box-shadow: 0 0 12px rgba(14,116,144,0.06); }
+  50% { box-shadow: 0 0 20px rgba(14,116,144,0.1); }
+}
