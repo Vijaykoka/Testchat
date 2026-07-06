@@ -1,3 +1,5 @@
+import chunksData from '@/data/chunks.json';
+
 export interface ChunkRecord {
   id: string;
   text: string;
@@ -5,8 +7,6 @@ export interface ChunkRecord {
   source: string;
   title: string;
 }
-
-import chunksData from '@/data/chunks.json';
 
 const chunks: ChunkRecord[] = chunksData as ChunkRecord[];
 
